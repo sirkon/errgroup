@@ -37,7 +37,7 @@ func (g *Group) done() {
 	g.wg.Done()
 }
 
-// New returns a new Group and an associated Context derived from ctx.
+// New returns a new Group.
 //
 // The derived Context is canceled the first time a function passed to Go
 // returns a non-nil error or the first time Wait returns, whichever occurs
@@ -64,8 +64,7 @@ func (g *Group) Wait() error {
 // It blocks until the new goroutine can be added without the number of
 // active goroutines in the group exceeding the configured limit.
 //
-// The first call to return a non-nil error cancels the group; its error will be
-// returned by Wait.
+// The first call to return a non-nil error cancels the group.
 func (g *Group) Go(f func(ctx context.Context) error) {
 	if g.sem != nil {
 		g.sem <- token{}
@@ -116,7 +115,7 @@ func (g *Group) TryGo(f func(ctx context.Context) error) bool {
 	return true
 }
 
-// Ctx returns
+// Ctx returns inner context.
 func (g *Group) Ctx() context.Context {
 	return g.ctx
 }
